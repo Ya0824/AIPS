@@ -11,7 +11,7 @@ AI-based Power Simulation for Pre-silicon Side-channel Security Evaluation
 
 # Table of contents
 - [Prerequisites](#prerequisites)
-- [Running EMSim](#running-emsim)
+- [Running AIPS](#running-emsim)
     - [Data Preparation](#data-preparation)
     - [Current Analysis](#current-analysis)
     - [Electromagnetic Computation](#electromagnetic-computation)
@@ -22,11 +22,11 @@ AI-based Power Simulation for Pre-silicon Side-channel Security Evaluation
 At a minimum:
 
 - Python 3.8+ with PIP
-- VCS, Calibre xRC, PrimeTime PX, HSpice
+- VCS, PrimeTime PX
 - Linux or Windows
 
-# Running EMSim
-EMSim consists of three main steps: data preparation, current analysis and EM computation.
+# Running AIPS
+AIPS consists of three main steps: data preparation, model training and prediction.
 
 <table>
   <tr>
@@ -36,7 +36,7 @@ EMSim consists of three main steps: data preparation, current analysis and EM co
 
 ## Data Preparation
 
-A RTL-to-GDS flow is a prerequisite to creating a layout database, which provides input data for EMSIM.
+A RTL-to-netlist flow is a prerequisite to creating a netlist database, which provides input data for EMSIM.
 
 ```
 design.gds                # GDSII data of physical layout

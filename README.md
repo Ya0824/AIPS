@@ -26,7 +26,7 @@ At a minimum:
 - Linux or Windows
 
 # Running AIPS
-AIPS consists of three main steps: data preparation, model training and prediction.
+AIPS consists of three main steps: data preparation, model training and security evaluation.
 
 <table>
   <tr>

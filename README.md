@@ -190,11 +190,12 @@ optional arguments:
 
 | Name         | Affiliation           | email                                                     |
 | ------------ | --------------------- | --------------------------------------------------------- |
-| Haocheng Ma  | Tianjin University    | [hc_ma@tju.edu.cn](mailto:hc_ma@tju.edu.cn)               |
-| Yier Jin     | University of Florida | [jinyier@gmail.com](mailto:jinyier@gmail.com)             |
-| Max Panoff   | University of Florida | [m.panoff@ufl.edu](mailto:m.panoff@ufl.edu)               |
-| Jiaji He     | Tianjin University    | [dochejj@tju.edu.cn](mailto:dochejj@tju.edu.cn)           |
 | Ya Gao       | Tianjin University    | [gaoyaya@tju.edu.cn](mailto:gaoyaya@tju.edu.cn)           |
+| Haocheng Ma  | Tianjin University    | [hc_ma@tju.edu.cn](mailto:hc_ma@tju.edu.cn)               |
+| Jiaji He     | Tianjin University    | [dochejj@tju.edu.cn](mailto:dochejj@tju.edu.cn)           |
+| Yier Jin     | University of Florida | [jinyier@gmail.com](mailto:jinyier@gmail.com)             |
+
+
 
 # Copyright
 
@@ -202,19 +203,19 @@ It is mainly intended for non-commercial use, such as academic research.
 
 # Citation
 
-If you utilize EMSim in your research, we kindly request citation of the respective publication: https://ieeexplore.ieee.org/abstract/document/10024840
+If you utilize AIPS in your research, we kindly request citation of the respective publication: 
 
 ```
-@ARTICLE{10024840,
-  author={Ma, Haocheng and Panoff, Max and He, Jiaji and Zhao, Yiqiang and Jin, Yier},
-  journal={IEEE Transactions on Information Forensics and Security}, 
-  title={EMSim: A Fast Layout Level Electromagnetic Emanation Simulation Framework for High Accuracy Pre-Silicon Verification}, 
-  year={2023},
-  volume={18},
+@ARTICLE{
+  author={ },
+  journal={ }, 
+  title={ }, 
+  year={ },
+  volume={ },
   number={},
-  pages={1365-1379},
-  keywords={Integrated circuit modeling;Integrated circuits;Mathematical models;Computational modeling;Analytical models;Security;Layout;CAD for security;EM~emanation simulation;side channel analysis},
-  doi={10.1109/TIFS.2023.3239184}}
+  pages={ },
+  keywords={ },
+  doi={ }}
 ```
 
 

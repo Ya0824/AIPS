@@ -2,7 +2,7 @@
 AI-based Power Simulation for Pre-silicon Side-channel Security Evaluation
 
 
-![](https://github.com/jinyier/EMSim/blob/main/doc/EMSim_LOGO.png)
+
 
 - EMSim is designed to predict the EM emanations from ICs at the layout level.
 - Version 1.0

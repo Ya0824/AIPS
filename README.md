@@ -13,8 +13,8 @@ AI-based Power Simulation for Pre-silicon Side-channel Security Evaluation
 - [Prerequisites](#prerequisites)
 - [Running AIPS](#running-emsim)
     - [Data Preparation](#data-preparation)
-    - [Current Analysis](#current-analysis)
-    - [Electromagnetic Computation](#electromagnetic-computation)
+    - [Model Training](#model-training)
+    - [Security Evaluation](#security-evaluation)
 - [Contributors](#contributors)
 - [Copyright](#copyright)
 
@@ -39,15 +39,13 @@ AIPS consists of three main steps: data preparation, model training and security
 A RTL-to-netlist flow is a prerequisite to creating a netlist database, which provides input data for EMSIM.
 
 ```
-design.gds                # GDSII data of physical layout
-design.v                  # layout-level netlists in Verilog
-design.def                # physcial design data in DEF
-design.sdc                # timing constraints
-design.sdf                # timing data to specify interconnect delay and cell dealys
-design.spef               # parasitic data in SPEF
+design.v                  # gate-level netlist in Verilog
+design.vcd                # signal switching activities from VCS
+design.out                # power data from PTPX
+design.lib                # technology process node file
 ```
 
-## Current Analysis
+## Model Training
 
 Current analysis aims to simulate transient currents flowing in power grids of ICs.
 

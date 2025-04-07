@@ -4,11 +4,10 @@ AI-based Power Simulation for Pre-silicon Side-channel Security Evaluation
 
 
 
-- EMSim is designed to predict the EM emanations from ICs at the layout level.
+- AIPS is designed to predict the power traces from ICs at the netlist level.
 - Version 1.0
 - Contacts: 
-    - Haocheng Ma : hc_ma@tju.edu.cn
-    - Yier Jin : jinyier@gmail.com
+    - Ya Gao : gaoyaya@tju.edu.cn
 
 # Table of contents
 - [Prerequisites](#prerequisites)

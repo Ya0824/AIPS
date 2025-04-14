@@ -6,8 +6,7 @@ AI-based Power Simulation for Pre-silicon Side-channel Security Evaluation
 
 - AIPS is designed to predict the power traces from ICs at the netlist level.
 - Version 1.0
-- Contacts: 
-    - Ya Gao : gaoyaya@tju.edu.cn
+
 
 # Table of contents
 - [Prerequisites](#prerequisites)
@@ -104,15 +103,6 @@ optional arguments:
 ## Security Evaluation
 
 Using side-channel analysis algorithms to analyze the predicted power trace to determine whether the chip has security risks.
-
-
-# Contributors
-
-| Name         | Affiliation           | email                                                     |
-| ------------ | --------------------- | --------------------------------------------------------- |
-| Ya Gao       | Tianjin University    | [gaoyaya@tju.edu.cn](mailto:gaoyaya@tju.edu.cn)           |
-| Haocheng Ma  | Tianjin University    | [hc_ma@tju.edu.cn](mailto:hc_ma@tju.edu.cn)               |
-| Jiaji He     | Tianjin University    | [dochejj@tju.edu.cn](mailto:dochejj@tju.edu.cn)           |
 
 
 # Copyright

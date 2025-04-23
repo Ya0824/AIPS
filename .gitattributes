@@ -1,0 +1,1 @@
+SwitchFile_train.vcd filter=lfs diff=lfs merge=lfs -text

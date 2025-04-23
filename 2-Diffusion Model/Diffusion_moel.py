@@ -210,7 +210,7 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', type=int, default=3000)
     parser.add_argument('--learning_rate', type=float, default=0.001)
     parser.add_argument('--noise_level', type=float, default=0.001)
-    parser.add_argument('--output_path', type=str, default='power_trace_test_pre.npy')
+    parser.add_argument('--output_path', type=str, default='Power_trace_test_pre.npy')
 
     args = parser.parse_args()
     main(args)

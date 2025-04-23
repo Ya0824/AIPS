@@ -93,8 +93,8 @@ def main():
     parser.add_argument("--period", type=int, default=160, help="Duration of each time period")
     parser.add_argument("--interval", type=int, default=6720, help="Inter timepoint interval")
     parser.add_argument("--scale", type=int, default=1, help="Time scale factor")
-    parser.add_argument("--input", type=str, default = 'PowerFile0.out', help="Path to the input power report file")
-    parser.add_argument("--output", type=str, default="Power_trace.npy",help="Path to save the output NumPy file")
+    parser.add_argument("--input", type=str, default = 'frontdata/PowerFile0_train.out', help="Path to the input power report file")
+    parser.add_argument("--output", type=str, default="Power_trace_train.npy",help="Path to save the output NumPy file")
     args = parser.parse_args()
 
     timelist = [args.start, args.period, args.interval, args.scale]

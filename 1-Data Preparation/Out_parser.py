@@ -81,7 +81,7 @@ def procPowRepo(stimunum, timelist, filepath, output_path):
     print(f"The shape of the power trace is {result.shape}\n")
 
     # save output
-    np.save(output_path, result)
+    np.save(output_path, result[:1000,:])
     print(f"Power trace saved to {output_path}")
     return result
 

@@ -5,10 +5,16 @@ import torch.optim as optim
 import numpy as np
 import random
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, TensorDataset
 import joblib
-import time
 import os
+import matplotlib.pyplot as plt
+import matplotlib
+
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
+plt.rc('font', family='Times New Roman')
 
 
 # ----------------------------
@@ -26,42 +32,38 @@ def ensure_dir(p):
         os.makedirs(d, exist_ok=True)
 
 
-set_seed(1)
+set_seed(44)
 
 
 # ----------------------------
 # Load data
 # ----------------------------
 def load_power(power_path: str):
-    power = np.load(power_path)  
+    power = np.load(power_path)  # (N, >=159)
     power = power[:, :159]
-    print("[INFO] Loaded power:", power.shape)
+    print(f"[INFO] Loaded power from {power_path}: {power.shape}")
     return power
 
 
 def load_vcd(vcd_path: str):
-    vcd = np.load(vcd_path)  
-    vcd = vcd[:, 1:]         
-    print("[INFO] Loaded vcd:", vcd.shape)
+    vcd = np.load(vcd_path) 
+    vcd = vcd[:, 1:]        
+    print(f"[INFO] Loaded vcd from {vcd_path}: {vcd.shape}")
     return vcd
 
 
 def load_features(feature_path: str):
-    feat = np.load(feature_path)  
-    print("[INFO] Loaded feature:", feat.shape)
+    feat = np.load(feature_path) 
+    print(f"[INFO] Loaded feature: {feat.shape}")
     return feat
 
 
 def process_features(feat_np, N):
-
-    feat_flat = feat_np.reshape(-1)       
+    feat_flat = feat_np.reshape(-1)      
     feat_rep = np.tile(feat_flat, (N, 1)) 
     return feat_rep
 
 
-# ----------------------------
-# Diffusion-style scheduler
-# ----------------------------
 class SimpleScheduler:
     def __init__(self, num_steps=10, beta_start=1e-3, beta_end=1e-2, device="cpu"):
         self.num_steps = num_steps
@@ -78,9 +80,7 @@ class SimpleScheduler:
         return sb * z0 + so * noise
 
 
-# ----------------------------
-# Model parts
-# ----------------------------
+
 class TimeEmbedding(nn.Module):
     def __init__(self, hidden_dim):
         super().__init__()
@@ -166,7 +166,7 @@ class LatentDiffusionAED(nn.Module):
         self.refine = RefinementBlock(latent_dim, cond_dim=hidden_dim, hidden_dim=hidden_dim)
 
     def forward(self, vcd, feat, scheduler: SimpleScheduler, force_add_noise=False):
-   
+
         B = vcd.size(0)
         cond_in = torch.cat([vcd, feat], dim=1)
         cond_emb = self.fusion(cond_in)
@@ -174,7 +174,7 @@ class LatentDiffusionAED(nn.Module):
         z0 = self.encoder(cond_emb)
 
         if force_add_noise:
-           
+     
             t0 = torch.randint(0, scheduler.num_steps, (B,), device=vcd.device, dtype=torch.long)
             eps = torch.randn_like(z0)
             z = scheduler.q_sample(z0, t0, eps)
@@ -183,7 +183,7 @@ class LatentDiffusionAED(nn.Module):
                 t_emb = self.time_emb(torch.full((B,), step, device=vcd.device))
                 z = z + mask * (self.refine(z, t_emb, cond_emb) - z)
         else:
-           
+          
             z = z0
             for step in range(scheduler.num_steps - 1, -1, -1):
                 t_emb = self.time_emb(torch.full((B,), step, device=vcd.device))
@@ -199,35 +199,82 @@ class LatentDiffusionAED(nn.Module):
 def train(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    power_np = load_power(args.power_path)  # (N,159)
-    vcd_np = load_vcd(args.train_vcd_path)  # (N,Tv)
-    feat_np = load_features(args.feature_path)  # (87,13)
-    N = power_np.shape[0]
 
-    feat_rep = process_features(feat_np, N)  # (N,1131)
+    power_train_all = load_power(args.train_power_path)      # (N_train_all,159)
+    vcd_train_all   = load_vcd(args.train_vcd_path)          # (N_train_all,Tv)
 
-    # scalers
+    power_test_np   = load_power(args.test_power_path)       # (N_test,159)
+    vcd_test_np     = load_vcd(args.test_vcd_path)           # (N_test,Tv)
+
+    feat_np = load_features(args.feature_path)               # (87,13)
+
+    N_train_all = power_train_all.shape[0]
+    N_test      = power_test_np.shape[0]
+
+
+    indices = np.arange(N_train_all)
+    train_idx, val_idx = train_test_split(
+        indices, test_size=0.1, random_state=44, shuffle=True
+    )
+
+    power_train_np = power_train_all[train_idx]
+    power_val_np   = power_train_all[val_idx]
+
+    vcd_train_np   = vcd_train_all[train_idx]
+    vcd_val_np     = vcd_train_all[val_idx]
+
+
+    feat_train_all = process_features(feat_np, N_train_all)  # (N_train_all,1131)
+    feat_train_np  = feat_train_all[train_idx]
+    feat_val_np    = feat_train_all[val_idx]
+
+    feat_test_np   = process_features(feat_np, N_test)
+
+   
     scaler_power = StandardScaler()
-    scaler_vcd = StandardScaler()
-    scaler_feat = StandardScaler()
+    scaler_vcd   = StandardScaler()
+    scaler_feat  = StandardScaler()
 
-    power_norm = scaler_power.fit_transform(power_np)
-    vcd_norm = scaler_vcd.fit_transform(vcd_np)
-    feat_norm = scaler_feat.fit_transform(feat_rep)
+    power_train_norm = scaler_power.fit_transform(power_train_np)
+    power_val_norm   = scaler_power.transform(power_val_np)
+    power_test_norm  = scaler_power.transform(power_test_np)
 
-    power = torch.tensor(power_norm, dtype=torch.float32, device=device)
-    vcd = torch.tensor(vcd_norm, dtype=torch.float32, device=device)
-    feat = torch.tensor(feat_norm, dtype=torch.float32, device=device)
+    vcd_train_norm   = scaler_vcd.fit_transform(vcd_train_np)
+    vcd_val_norm     = scaler_vcd.transform(vcd_val_np)
+    vcd_test_norm    = scaler_vcd.transform(vcd_test_np)
 
-    dataset = TensorDataset(power, vcd, feat)
-    loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
+    feat_train_norm  = scaler_feat.fit_transform(feat_train_np)
+    feat_val_norm    = scaler_feat.transform(feat_val_np)
+    feat_test_norm   = scaler_feat.transform(feat_test_np)
+
+ 
+    power_train = torch.tensor(power_train_norm, dtype=torch.float32, device=device)
+    power_val   = torch.tensor(power_val_norm,   dtype=torch.float32, device=device)
+    power_test  = torch.tensor(power_test_norm,  dtype=torch.float32, device=device)
+
+    vcd_train   = torch.tensor(vcd_train_norm,   dtype=torch.float32, device=device)
+    vcd_val     = torch.tensor(vcd_val_norm,     dtype=torch.float32, device=device)
+    vcd_test    = torch.tensor(vcd_test_norm,    dtype=torch.float32, device=device)
+
+    feat_train  = torch.tensor(feat_train_norm,  dtype=torch.float32, device=device)
+    feat_val    = torch.tensor(feat_val_norm,    dtype=torch.float32, device=device)
+    feat_test   = torch.tensor(feat_test_norm,   dtype=torch.float32, device=device)
+
+
+    train_dataset = TensorDataset(power_train, vcd_train, feat_train)
+    val_dataset   = TensorDataset(power_val,   vcd_val,   feat_val)
+    test_dataset  = TensorDataset(power_test,  vcd_test,  feat_test)
+
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
+    val_loader   = DataLoader(val_dataset,   batch_size=args.batch_size, shuffle=False)
+    test_loader  = DataLoader(test_dataset,  batch_size=args.batch_size, shuffle=False)
 
     model = LatentDiffusionAED(
-        vcd_dim=vcd.shape[1],
-        feat_dim=feat.shape[1],
+        vcd_dim=vcd_train.shape[1],
+        feat_dim=feat_train.shape[1],
         latent_dim=args.latent_dim,
         hidden_dim=args.hidden_dim,
-        power_dim=power.shape[1],
+        power_dim=power_train.shape[1],
         num_steps=args.num_steps
     ).to(device)
 
@@ -241,15 +288,19 @@ def train(args):
     optimizer = optim.Adam(model.parameters(), lr=args.learning_rate)
     criterion = nn.MSELoss()
 
-    best_loss = float('inf')
-    loss_hist = []
-    patience_counter = 0 
+  
+    best_test_loss = float('inf')
+    train_loss_hist = []
+    val_loss_hist   = []
+    test_loss_hist  = []
+    patience_counter = 0
 
     for epoch in range(args.epochs):
+  
         model.train()
-        running = 0.0
-        for power_b, vcd_b, feat_b in loader:
-           
+        running_train = 0.0
+
+        for power_b, vcd_b, feat_b in train_loader:
             pred_power = model(vcd_b, feat_b, scheduler, force_add_noise=True)
             loss = criterion(pred_power, power_b)
 
@@ -257,28 +308,54 @@ def train(args):
             loss.backward()
             optimizer.step()
 
-            running += loss.item()
+            running_train += loss.item()
 
-        epoch_loss = running / len(loader)
-        loss_hist.append(epoch_loss)
+        epoch_train_loss = running_train / len(train_loader)
+        train_loss_hist.append(epoch_train_loss)
+
+ 
+        model.eval()
+        running_val = 0.0
+        with torch.no_grad():
+            for power_b, vcd_b, feat_b in val_loader:
+                pred_power = model(vcd_b, feat_b, scheduler, force_add_noise=False)
+                loss = criterion(pred_power, power_b)
+                running_val += loss.item()
+
+        epoch_val_loss = running_val / len(val_loader)
+        val_loss_hist.append(epoch_val_loss)
+
+     
+        running_test = 0.0
+        with torch.no_grad():
+            for power_b, vcd_b, feat_b in test_loader:
+                pred_power = model(vcd_b, feat_b, scheduler, force_add_noise=False)
+                loss = criterion(pred_power, power_b)
+                running_test += loss.item()
+
+        epoch_test_loss = running_test / len(test_loader)
+        test_loss_hist.append(epoch_test_loss)
 
         if (epoch % 10 == 0) or (epoch == args.epochs - 1):
-            print(f"[Epoch {epoch}/{args.epochs}] loss={epoch_loss:.6f}")
+            print(f"[Epoch {epoch}/{args.epochs}] "
+                  f"train_loss={epoch_train_loss:.6f}  "
+                  f"val_loss={epoch_val_loss:.6f}  "
+                  f"test_loss={epoch_test_loss:.6f}")
 
        
-        if epoch_loss < best_loss:
-            best_loss = epoch_loss
+        if epoch_test_loss < best_test_loss:
+            best_test_loss = epoch_test_loss
             patience_counter = 0 
 
             ensure_dir(args.checkpoint_path)
             torch.save({
                 "model_state": model.state_dict(),
                 "meta": {
-                    "vcd_dim": vcd.shape[1],
-                    "feat_dim": feat.shape[1],
+                    "vcd_dim": vcd_train.shape[1],
+                    "feat_dim": feat_train.shape[1],
                     "latent_dim": args.latent_dim,
                     "hidden_dim": args.hidden_dim,
-                    "power_dim": power.shape[1],
+                    "power_dim": power_train.shape[1],
                     "num_steps": args.num_steps,
                     "beta_start": args.beta_start,
                     "beta_end": args.beta_end
@@ -290,15 +367,16 @@ def train(args):
                 "scaler_feat": scaler_feat
             }, args.scaler_path)
         else:
-            patience_counter += 1  
+            patience_counter += 1
 
         if patience_counter >= args.patience:
             print(f"[INFO] Early stopping at epoch {epoch}, "
-                  f"no improvement for {args.patience} epochs.")
+                  f"no improvement on test loss for {args.patience} epochs.")
             break
 
-    print(f"[INFO] Training done. Best loss={best_loss:.6f}")
-    return loss_hist
+    print(f"[INFO] Training done. Best test_loss={best_test_loss:.6f}")
+
+    return train_loss_hist, val_loss_hist, test_loss_hist
 
 
 @torch.no_grad()
@@ -341,8 +419,7 @@ def predict(args):
     vcd = torch.tensor(vcd_norm, dtype=torch.float32, device=device)
     feat = torch.tensor(feat_norm, dtype=torch.float32, device=device)
 
-  
-    pred_power_norm = model(vcd, feat, scheduler, force_add_noise=True)
+    pred_power_norm = model(vcd, feat, scheduler, force_add_noise=False)
     pred_power = scaler_power.inverse_transform(pred_power_norm.cpu().numpy())
 
     ensure_dir(args.output_path)
@@ -351,37 +428,40 @@ def predict(args):
     return pred_power
 
 
-# ----------------------------
-# Main
-# ----------------------------
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--mode', choices=['train', 'predict'], default='predict')
+    parser.add_argument('--mode', choices=['train', 'predict'], default='train')
 
     # paths
-    parser.add_argument('--feature_path', type=str, default='../1-Data Preparation/cell_feature.npy')
-    parser.add_argument('--power_path', type=str, default='Power_trace_train.npy')
-    parser.add_argument('--train_vcd_path', type=str, default='pin_switch_mean_160_train.npy')
+    parser.add_argument('--feature_path',      type=str, default='../1-Data Preparation/cell_feature.npy')
+
+    parser.add_argument('--train_power_path', type=str, default='Power_trace_train.npy')
+    parser.add_argument('--train_vcd_path',   type=str, default='pin_switch_mean_160_train.npy')
+
+    parser.add_argument('--test_power_path',  type=str, default='Power_trace_test.npy')
+    parser.add_argument('--test_vcd_path',    type=str, default='pin_switch_mean_160_test.npy')
+
     parser.add_argument('--predict_vcd_path', type=str, default='pin_switch_mean_160_test.npy')
-    parser.add_argument('--checkpoint_path', type=str, default='latent_dae.pth')
-    parser.add_argument('--scaler_path', type=str, default='scalers.pkl')
-    parser.add_argument('--output_path', type=str, default='Power_trace_test_pre.npy')
+
+    parser.add_argument('--checkpoint_path',  type=str, default='ckpts/latent_dae.pth')
+    parser.add_argument('--scaler_path',      type=str, default='ckpts/scalers.pkl')
+    parser.add_argument('--output_path',      type=str, default='Power_trace_test_pre.npy')
 
     # model
     parser.add_argument('--latent_dim', type=int, default=128)
     parser.add_argument('--hidden_dim', type=int, default=256)
 
     # diffusion-like schedule
-    parser.add_argument('--num_steps', type=int, default=10)
+    parser.add_argument('--num_steps',  type=int,   default=10)
     parser.add_argument('--beta_start', type=float, default=1e-3)
-    parser.add_argument('--beta_end', type=float, default=1e-2)
+    parser.add_argument('--beta_end',   type=float, default=1e-2)
 
     # train
-    parser.add_argument('--batch_size', type=int, default=64)
-    parser.add_argument('--epochs', type=int, default=300)
-    parser.add_argument('--learning_rate', type=float, default=1e-3)
-    parser.add_argument('--patience', type=int, default=10)  
-
+    parser.add_argument('--batch_size',     type=int,   default=64)
+    parser.add_argument('--epochs',         type=int,   default=300)
+    parser.add_argument('--learning_rate',  type=float, default=1e-3)
+    parser.add_argument('--patience',       type=int,   default=10)  
     args = parser.parse_args()
 
     if args.mode == 'train':
@@ -392,4 +472,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

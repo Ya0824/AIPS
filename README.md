@@ -71,6 +71,29 @@ It can be generally applied to:
 - Graph construction for graph neural networks (GNNs)
 - Any task requiring cell-level connectivity information
 
+#### Lib_parser.py
+
+This script parses a Liberty file and extracts **cell leakage power** together with **internal power** information. For each cell, it summarizes the `internal_power` tables by taking the **median** value of the `values(...)` entries.
+
+**Input**
+- Liberty `.lib` file (e.g., `fast.lib`)
+
+**Output**
+- `cell_power.pkl`
+
+The output is stored as a Python dictionary:
+
+- **Key**: Cell name (e.g., `XNOR2X1`)
+- **Value**: A list of floats, where:
+  - the **first element** is `cell_leakage_power`
+  - the remaining elements are the extracted internal-power summary values
+
+**Example**
+
+```python
+XNOR2X1: [355.859064, 0.051917, 0.084137, 0.080041, 0.067042, 0.09906, 0.14078, 0.133293, 0.111911]
+```
+
 ### Diffusion Model
 
 This stage implements the diffusion-based power simulation model used in AIPS. The model learns to generate realistic power traces conditioned on VCD traces and cell-level features.

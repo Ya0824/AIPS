@@ -22,4 +22,26 @@ These components correspond to the three major stages of the AIPS pipeline:
 ## Table of Contents
 
 - [System Configuration Used for Experiments](#system-configuration-used-for-ex)
+- [Python requirement](#python-requirement)
+- [Usage](#usage)
+- [License](#license)
+- [Contact](#contact)
+
+
+## Usage
+
+### Data Preparation
+
+This stage prepares the structural and activity-related information required for diffusion-based power simulation. It processes the gate-level netlist and signal activity traces to construct
+topology-aware inputs for the AIPS model. The scripts in this folder are responsible for extracting circuit topology,
+cell-level features, and aligned activity representations.
+
+
+### Diffusion Model
+
+### Security Evaluation
+
+### Data Preparation
+
+
 

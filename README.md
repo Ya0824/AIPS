@@ -21,7 +21,6 @@ These components correspond to the three major stages of the AIPS pipeline:
 - [System Configuration Used for Experiments](#system-configuration-used-for-ex)
 - [Python requirement](#python-requirement)
 - [Usage](#usage)
-- [License](#license)
 - [Contact](#contact)
 
 
@@ -173,4 +172,6 @@ Output:
 ```
 This script is sourced from [GitHub.](https://github.com/eshard/scared)
 
+## Contact
+Ya Gao
 

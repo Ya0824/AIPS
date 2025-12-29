@@ -29,12 +29,14 @@ These components correspond to the three major stages of the AIPS pipeline:
 
 ### Data Preparation
 
-This stage prepares the structural and activity-related information required for AIPS. It processes the gate-level netlist and signal activities to extract circuit topology, cell-level features, and VCD traces.
+This stage prepares the structural and activity-related information required for AIPS. 
+It processes the gate-level netlist and signal activities to extract circuit topology, cell features, and VCD traces.
 
 #### topology-analysis.py
 
 ```
-This script extracts the topological connectivity between logic cells and signals from a flattened gate-level netlist. It parses the netlist and constructs a cell-centric representation of the circuit structure.
+This script extracts the topological connectivity between logic cells and signals from a flattened gate-level netlist. 
+It parses the netlist and constructs a cell-centric representation of the circuit structure.
 
 Input:
 - Flattened gate-level Verilog netlist (e.g., `aes.v`)
@@ -63,7 +65,8 @@ control_U30 [
 #### Lib_parser.py
 
 ```
-This script parses a Liberty file and extracts cell leakage power together with internal power information. For each cell, it summarizes the internal_power tables by taking the median value of the values(...) entries.
+This script parses a Liberty file and extracts cell leakage power together with internal power information. 
+For each cell, it summarizes the internal_power tables by taking the median value of the values(...) entries.
 
 Input:
 - Liberty `.lib` file (e.g., `fast.lib`)

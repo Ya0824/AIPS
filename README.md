@@ -33,24 +33,24 @@ This stage prepares the structural and activity-related information required for
 
 #### topology-analysis.py
 
+```
 This script extracts the **topological connectivity** between logic cells and signals
 from a flattened gate-level netlist. It parses the netlist and constructs a
 cell-centric representation of the circuit structure.
 
-**Input**
-- Flattened gate-level Verilog netlist (e.g., `aes.v`)
-
-**Output**
-- `cell2pin.pkl`
+Input:
+- Flattened gate-level Verilog netlist (e.g., aes.v)
+Output:
+- cell2pin.pkl
 
 The output file `cell2pin.pkl` is a Python dictionary with the following structure:
-
-- **Key**: Cell instance name
-- **Value**: A list containing
+- Key:   Cell instance name
+- Value: A list containing
   1. The cell type
   2. A list of two dictionaries:
      - Input pin–to–net mapping
      - Output pin–to–net mapping
+```
 
 **Example**
 
@@ -63,13 +63,6 @@ control_U30 [
     ]
 ]
 ```
-
-Although this script is used in the AIPS data preparation pipeline, it is **not specific to AIPS**.
-It can be generally applied to:
-- Netlist topology extraction
-- Structural analysis of digital circuits
-- Graph construction for graph neural networks (GNNs)
-- Any task requiring cell-level connectivity information
 
 #### Lib_parser.py
 
@@ -85,8 +78,8 @@ The output is stored as a Python dictionary:
 
 - **Key**: Cell name (e.g., `XNOR2X1`)
 - **Value**: A list of floats, where:
-1. the **first element** is `cell_leakage_power`
-2. the remaining elements are the extracted internal-power summary values
+  1. The **first element** is `cell_leakage_power`
+  2. The remaining elements are the extracted internal-power summary values
 
 **Example**
 

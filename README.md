@@ -163,8 +163,8 @@ This script performs Correlation Power Analysis (CPA) on power traces to evaluat
 It applies standard CPA using the scared framework and reports key-recovery performance.
 
 Input:
-- Plaintext file: `StimuliFile_train.txt`
-- Power traces: `power_trace_train.npy`
+- Plaintext file: `StimuliFile_.txt`
+- Power traces: `power_trace_.npy`
 - Secret key
 Output:
 - CPA result plots: `CpaAttackByte<i>.png`

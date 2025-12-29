@@ -87,7 +87,9 @@ XNOR2X1: [355.859064, 0.051917, 0.084137, 0.080041, 0.067042, 0.09906, 0.14078, 
 #### cell_feature.py
 
 ```
-This script integrates cell-level structural and power-related information into a unified feature representation. It combines the parsed Liberty power data with the set of cell types extracted from the netlist topology. The resulting feature matrix is used as the cell-level feature input to the AIPS diffusion model.
+This script integrates cell-level structural and power-related information into a unified feature representation. 
+It combines the parsed Liberty power data with the set of cell types extracted from the netlist topology. 
+The resulting feature matrix is used as the cell-level feature input to the AIPS diffusion model.
 
 Input:
 - `cell2pin.pkl`

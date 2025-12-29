@@ -162,7 +162,6 @@ This stage evaluates both PTPX and AIPS-generated power traces using standard si
 ```
 This script performs Correlation Power Analysis (CPA) on power traces to evaluate the side-channel security of the target implementation.
 It applies standard CPA using the scared framework and reports key-recovery performance.
-sacred: https://github.com/eshard/scared
 
 Input:
 - Plaintext file: `StimuliFile_train.txt`
@@ -172,6 +171,6 @@ Output:
 - CPA result plots: `CpaAttackByte<i>.png`
 - Console report of recovered key bytes
 ```
-
+This script is sourced from [GitHub.](https://github.com/eshard/scared)
 
 

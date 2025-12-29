@@ -85,8 +85,8 @@ The output is stored as a Python dictionary:
 
 - **Key**: Cell name (e.g., `XNOR2X1`)
 - **Value**: A list of floats, where:
-  - the **first element** is `cell_leakage_power`
-  - the remaining elements are the extracted internal-power summary values
+1. the **first element** is `cell_leakage_power`
+2. the remaining elements are the extracted internal-power summary values
 
 **Example**
 

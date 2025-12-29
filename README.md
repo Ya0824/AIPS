@@ -48,11 +48,8 @@ The output file `cell2pin.pkl` is a Python dictionary with the following structu
   2. A list of two dictionaries:
      - Input pin–to–net mapping
      - Output pin–to–net mapping
-```
 
 **Example**
-
-```python
 control_U30 [
     'XNOR2X1',
     [
@@ -80,7 +77,6 @@ The output is stored as a Python dictionary:
 
 **Example**
 
-```python
 XNOR2X1: [355.859064, 0.051917, 0.084137, 0.080041, 0.067042, 0.09906, 0.14078, 0.133293, 0.111911]
 ```
 

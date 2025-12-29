@@ -68,7 +68,8 @@ control_U30 [
         {'A': 'control_gray_dout[0]', 'B': 'control_gray_dout[3]'},
         {'Y': 'control_n5'}
     ]
-]```
+]
+```
 
 ### Diffusion Model
 

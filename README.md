@@ -34,7 +34,7 @@ This stage prepares the structural and activity-related information required for
 #### topology-analysis.py
 
 ```
-This script extracts the **topological connectivity** between logic cells and signals from a flattened gate-level netlist. It parses the netlist and constructs a cell-centric representation of the circuit structure.
+This script extracts the topological connectivity between logic cells and signals from a flattened gate-level netlist. It parses the netlist and constructs a cell-centric representation of the circuit structure.
 
 Input:
 - Flattened gate-level Verilog netlist (e.g., `aes.v`)

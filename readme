@@ -1,3 +1,8 @@
-- AIPS is designed to predict the power traces from ICs at the netlist level.
-- Version 1.0
-- Contacts: 
+AIPS: AI-Based Power Simulation for Pre-silicon Side-Channel Security Evaluation
+
+This repository contains the design files and scripts associated with the CHES 2026 paper:
+
+AIPS: AI-Based Power Simulation for Pre-silicon Side-Channel Security Evaluation
+Ya Gao, Haocheng Ma, Tanchen Zhang, Jiaji He, Yiqiang Zhao, Mirjana Stojilovic, Yier Jin
+
+AIPS is an AI-assisted framework for pre-silicon power side-channel simulation, enabling data-efficient security evaluation using diffusion-based generative models.

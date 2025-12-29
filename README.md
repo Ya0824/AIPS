@@ -32,14 +32,14 @@ These components correspond to the three major stages of the AIPS pipeline:
 This stage prepares the structural and activity-related information required for AIPS. It processes the gate-level netlist and signal activities to extract circuit topology, cell-level features, and VCD traces.
 
 1. **topology-analysis.py**
+   
 **Input**
 - Flattened gate-level Verilog netlist (e.g., `aes.v`)
 
 **Output**
 - `cell2pin.pkl`
 
-This script extracts the **topological connectivity** between logic cells and signals from a flattened gate-level netlist.
-It parses the netlist and constructs a cell-centric representation of the circuit structure, which serves as a fundamental input for topology-aware modeling in AIPS.
+This script extracts the **topological connectivity** between logic cells and signals from a flattened gate-level netlist. It parses the netlist and constructs a cell-centric representation of the circuit structure.
 
 Although this script is used in the AIPS data preparation pipeline, it is **not specific to AIPS**.
 It can be generally applied to:
@@ -49,8 +49,6 @@ It can be generally applied to:
 - Any task requiring cell-level connectivity information
 
 ---
-
-### Output Format: cell2pin.pkl
 
 The output file `cell2pin.pkl` is a Python dictionary with the following structure:
 
@@ -70,7 +68,7 @@ control_U30 [
         {'A': 'control_gray_dout[0]', 'B': 'control_gray_dout[3]'},
         {'Y': 'control_n5'}
     ]
-]
+]```
 
 ### Diffusion Model
 

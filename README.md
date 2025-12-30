@@ -24,8 +24,9 @@ These components correspond to the three major stages of the AIPS pipeline:
     - [Diffusion Model](#diffusion-model)
     - [Security Evaluation](#security-evaluation)
 - [Contact](#contact)
-
-
+- [Copyright](#copyright)
+- [Citation](#citataion)
+  
 ## Prerequisites
 At a minimum:
 

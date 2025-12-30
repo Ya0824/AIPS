@@ -4,7 +4,7 @@ This directory contains the design files corresponding to the CHES 2026 paper "A
 
 ---
 
-## Overview
+# Overview
 
 This repository uses the **AES circuit** as a representative example to demonstrate the complete AIPS workflow.
 
@@ -16,7 +16,7 @@ These components correspond to the three major stages of the AIPS pipeline:
 
 ---
 
-## Table of Contents
+# Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)

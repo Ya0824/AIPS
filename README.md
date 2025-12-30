@@ -21,7 +21,12 @@ These components correspond to the three major stages of the AIPS pipeline:
 - [System Configuration Used for Experiments](#system-configuration-used-for-ex)
 - [Python requirement](#python-requirement)
 - [Usage](#usage)
+    - [Data Preparation](#data-preparation)
+    - [Diffusion Model](#diffusion-model)
+    - [Security Evaluation](#security-evaluation)
 - [Contact](#contact)
+
+
 
 
 ## Usage

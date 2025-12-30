@@ -26,7 +26,7 @@ These components correspond to the three major stages of the AIPS pipeline:
 - [Contact](#contact)
 
 
-# Prerequisites
+## Prerequisites
 At a minimum:
 
 - Python 3.8+ with PIP

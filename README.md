@@ -18,8 +18,7 @@ These components correspond to the three major stages of the AIPS pipeline:
 
 ## Table of Contents
 
-- [System Configuration Used for Experiments](#system-configuration-used-for-ex)
-- [Python requirement](#python-requirement)
+- [Prerequisites](#prerequisites)
 - [Usage](#usage)
     - [Data Preparation](#data-preparation)
     - [Diffusion Model](#diffusion-model)
@@ -27,6 +26,12 @@ These components correspond to the three major stages of the AIPS pipeline:
 - [Contact](#contact)
 
 
+# Prerequisites
+At a minimum:
+
+- Python 3.8+ with PIP
+- VCS, PrimeTime PX
+- Linux or Windows
 
 
 ## Usage

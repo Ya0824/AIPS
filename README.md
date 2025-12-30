@@ -155,13 +155,13 @@ This script implements both training and inference of the AIPS diffusion model.
 
 ```
 Input:
-- VCD-based activity traces: `pin_switch_mean_*.npy`
+- VCD-based activity traces: `pin_switch_mean_.npy`
 - Cell-level feature matrix: `cell_feature.npy`
-- (Training only) Ground-truth power traces: `power_trace_*.npy`
+- (Training only) Ground-truth power traces: `power_trace_.npy`
 Output:
 - Trained model checkpoint: `latent_dae.pth`
 - Normalization scalers: `scalers.pkl`
-- Generated power traces: `Power_trace_*_pre.npy`
+- Generated power traces: `Power_trace_ _pre.npy`
 ```
 
 ### Security Evaluation

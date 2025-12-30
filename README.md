@@ -183,5 +183,32 @@ Output:
 This script is sourced from [GitHub.](https://github.com/eshard/scared)
 
 ## Contact
-Ya Gao
+
+| Name         | Affiliation           | email                                                     |
+| ------------ | --------------------- | --------------------------------------------------------- |
+| Ya Gao       | Tianjin University    | [gaoyaya@tju.edu.cn](mailto:gaoyaya@tju.edu.cn)           |
+| Yier Jin     | University of Florida | [jinyier@gmail.com](mailto:jinyier@gmail.com)             |
+
+
+
+## Copyright
+
+It is mainly intended for non-commercial use, such as academic research.
+
+## Citation
+
+If you utilize AIPS in your research, we kindly request citation of the respective publication: 
+
+```
+@ARTICLE{XXX,
+  author={xxx},
+  journal={XXX}, 
+  title={AIPS: AI-Based Power Simulation for Pre-silicon Side-Channel Security Evaluation}, 
+  year={2026},
+  volume={},
+  number={},
+  pages={},
+  keywords={},
+  doi={}}
+```
 

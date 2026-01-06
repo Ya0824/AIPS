@@ -1,25 +1,24 @@
-from estraces import ETSWriter
-import os
+#!/usr/bin/env python3
+"""
+Standalone script to perform correlation power analysis (CPA).
+"""
+
 import scared
 import numpy as np
-import h5py
-from scared import aes
+# from scared import aes
 import matplotlib.pyplot as plt
 
+
 # Attack Settings
-# decide Real Key in hexadecimal format
+
+# Decide Real Key in hexadecimal format.
 key = '0123456789abcdef123456789abcdef0'
-# decide file path of Plaintext Data
-plain_file = './StimuliFile.txt'
-# decide file path of Power Trace 
-
-
-# decide Trace Number of targeted power data
+# Decide file path of Plaintext Data.
+plain_file = './StimuliFile_test.txt'
+# Decide file path of Power Trace.
+trace = np.load('../2-Diffusion Model/power_trace_test_pre.npy')
+# Decide Trace Number of targeted power data.
 trace_num = 1000
-
-
-trace = np.load('Power_trace.npy')
-
 
 
 def read_txt(file,trace_num):
@@ -27,7 +26,6 @@ def read_txt(file,trace_num):
     with open(file, 'r') as f:
         datas = f.read().splitlines()
     datas = datas[0:trace_num]
-    #datas = datas[:-2]
     data = []
     for j in datas:
         for i in range(0,len(j), 2):
@@ -35,9 +33,11 @@ def read_txt(file,trace_num):
     data = np.array(data).reshape(-1, 16)
     
     data = data[range(1, 2*trace_num, 2)]
-    return data	
+    return data
+
 # process plaintext data from StimuliFile.txt
 plaintext = read_txt(plain_file, trace_num)
+plaintext = plaintext.astype('uint8')
 
 # convert real key from hexadecimal format to decimal format
 real_key = []
@@ -97,13 +97,13 @@ for index, gk in enumerate(cpa_first_round_key):
         isright.append(1)
     else:
         isright.append(0)
-errorbyte = [i for i, x in enumerate(isright) if x == 1]
+correctbyte = [i for i, x in enumerate(isright) if x == 1]
 
 print('# ========================================================================== #')
 print('#    Guess result: {}'.format(cpa_first_round_key))
 print('#    Right result: {}'.format(ths[0].key))
 print('#    The CPA attack recover {} key bytes from this cipher module'.format(sum(isright)))
-print('#    The following key bytes are not recovered: {}'.format(errorbyte))
+print('#    The following key bytes are recovered: {}'.format(correctbyte))
 print('# ========================================================================== #\n')
 
 for byte in range(16):
@@ -121,5 +121,5 @@ for byte in range(16):
     plt.ylabel("Correlation", fontsize=30)
     plt.xlabel("Time Points", fontsize=30)
     plt.legend(loc='best', fontsize=25, frameon=False)
-    # plt.show()
+    plt.show()
     plt.savefig('CpaAttackByte{}.png'.format(str(byte)))

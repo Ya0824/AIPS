@@ -42,7 +42,7 @@ At a minimum:
 This stage prepares the structural and activity-related information required for AIPS. 
 It processes the gate-level netlist and signal activities to extract circuit topology, cell features, and VCD traces.
 
-#### topology-analysis.py
+#### Topology_analysis.py
 
 This script extracts the topological connectivity between logic cells and signals from a flattened gate-level netlist. 
 It parses the netlist and constructs a cell-centric representation of the circuit structure.

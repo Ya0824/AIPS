@@ -1,6 +1,6 @@
 # AIPS: AI-Based Power Simulation for Pre-silicon Side-Channel Security Evaluation
 
-This directory contains the design files corresponding to the CHES 2026 paper "AIPS: AI-Based Power Simulation for Pre-silicon Side-Channel Security Evaluation" by Ya Gao, Haocheng Ma, Tanchen Zhang, Jiaji He, Yiqiang Zhao, Mirjana Stojilovic, Yier Jin.
+This directory contains the design files corresponding to the paper "AIPS: AI-Based Power Simulation for Pre-silicon Side-Channel Security Evaluation".
 
 ---
 
@@ -188,8 +188,6 @@ This script is sourced from [GitHub.](https://github.com/eshard/scared)
 
 | Name         | Affiliation           | email                                                     |
 | ------------ | --------------------- | --------------------------------------------------------- |
-| Ya Gao       | Tianjin University    | [gaoyaya@tju.edu.cn](mailto:gaoyaya@tju.edu.cn)           |
-| Yier Jin     | University of Florida | [jinyier@gmail.com](mailto:jinyier@gmail.com)             |
 
 
 
